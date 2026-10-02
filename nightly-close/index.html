@@ -166,6 +166,18 @@ figcaption { font-size: 0.9rem; color: var(--muted); max-width: 680px; }
 .role ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
 @media (max-width: 760px) { .role { grid-template-columns: 1fr; } }
 
+/* Why section */
+.why-stats { display: flex; flex-wrap: wrap; gap: 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); max-width: 860px; }
+.why-stats > div { flex: 1 1 180px; padding: 16px 20px 16px 0; display: grid; gap: 2px; min-width: 0; }
+.why-stats b { font-family: var(--font-display); font-size: 2rem; line-height: 1.1; color: var(--ink); font-weight: 600; }
+.why-stats span { font-size: 0.88rem; color: var(--muted); line-height: 1.4; }
+.market { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.market > div { background: var(--surface); border: 1px solid var(--rule); padding: 16px 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.market .who { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+.market .gap { font-size: 0.92rem; border-top: 1px dashed var(--rule); padding-top: 8px; }
+.market .gap b { color: var(--flag); font-weight: 600; }
+@media (max-width: 760px) { .market { grid-template-columns: 1fr; } }
+.sources { font-size: 0.82rem; color: var(--muted); max-width: 860px; }
 footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); }
 </style>
 </head>
@@ -213,6 +225,55 @@ footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--rule);
       <p>A name in the sheet differed from its dropdown by a single character. Excel didn't show an error. <span class="mono">SUMIF</span> quietly returned <b>$0</b>, and a runner's whole share dropped out of that night's total.</p>
       <p>Later, the app's own formula audit found an entire section of the workbook shifted one row: the first barista totalled a blank cell and every barista below her was paid the tips of the person above.</p>
     </div>
+  </section>
+
+  <section id="why">
+    <div class="col">
+      <span class="label">Why I built my own</span>
+      <h2>Why not just turn on a feature that already exists?</h2>
+      <p>It's the first question I'd ask too. Tip-pooling software is a crowded market, and I looked at it closely: Toast Tips Manager, the tip module in HotSchedules, 7shifts, TipHaus, Kickfin, Gratuity Solutions, Restaurant365 and Altametrics. They all do the tip math well. None of them solved the problem we actually had.</p>
+    </div>
+
+    <div class="market">
+      <div>
+        <h3>POS tip modules</h3>
+        <span class="who">Toast, Square, SpotOn, Aloha</span>
+        <p>Calculate pools from their own register and their own time clock.</p>
+        <p class="gap"><b>The gap:</b> we clock in through ADP, not Toast. Toast also documents that its policies can't be overridden for a single employee, and cuts and role swaps are exactly that.</p>
+      </div>
+      <div>
+        <h3>Scheduling add-ons</h3>
+        <span class="who">HotSchedules / Fourth, 7shifts, Homebase</span>
+        <p>Pull sales from the POS and hours from their own time clock.</p>
+        <p class="gap"><b>The gap:</b> none documents reading ADP punches or checking a finished tip sheet against them.</p>
+      </div>
+      <div>
+        <h3>Tip payout platforms</h3>
+        <span class="who">Kickfin, TipHaus, Branch, Gratuity Solutions</span>
+        <p>Began as cashless tip payouts and added calculation later. Revenue comes largely from moving the money.</p>
+        <p class="gap"><b>The gap:</b> built to pay tips out, not to reconcile three systems before payroll.</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <p><b>They all assume one thing: every employee is the same record in every system.</b> In an all-in-one stack that's true. Ours is mixed: Toast for sales, HotSchedules for the schedule, ADP for punches and payroll, and an Excel workbook as the record of who gets paid what. No vendor I reviewed documents a "this name doesn't match across systems" check, and that mismatch is exactly what paid a runner $0.</p>
+      <p>The stakes are high in New York. A missed tip-out carries a six-year lookback, 100% liquidated damages and 9% interest, and from 2026 every employee's qualified tips go on their W-2. A silent $0 isn't a rounding error; it's the underpayment the law punishes hardest.</p>
+    </div>
+
+    <div class="col">
+      <h3>And the honest part: buying software wasn't on the table</h3>
+      <p>When I took over as Operations Manager, the accounts and files had no owner. Logins, mappings and the tip workbook had drifted for months with nobody maintaining them, and there was little appetite for adopting a new platform. A new vendor means a contract, a rollout, staff training and someone to keep it running, and none of that existed.</p>
+      <p>Meanwhile managers were losing about two hours every night hunting for typos, broken formulas and names that didn't line up, time that should have gone to running the floor and building relationships with guests and staff. So I built a tool that works <i>with</i> the systems we already had rather than asking anyone to replace them. It takes the files those systems already export, needs no vendor approvals or integrations, and changes nothing about how anyone else works.</p>
+    </div>
+
+    <div class="why-stats">
+      <div><b>&lt; 2 months</b><span>from first line of code to nightly use</span></div>
+      <div><b>~2 hr → 30 min</b><span>nightly close, every night</span></div>
+      <div><b>$0</b><span>new software spend; runs on a free hosting tier</span></div>
+      <div><b>0</b><span>systems replaced or staff retrained</span></div>
+    </div>
+
+    <p class="sources">Based on public vendor documentation, fall 2026.</p>
   </section>
 
   <section>
