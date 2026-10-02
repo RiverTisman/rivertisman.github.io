@@ -178,6 +178,12 @@ figcaption { font-size: 0.9rem; color: var(--muted); max-width: 680px; }
 .market .gap b { color: var(--flag); font-weight: 600; }
 @media (max-width: 760px) { .market { grid-template-columns: 1fr; } }
 .sources { font-size: 0.82rem; color: var(--muted); max-width: 860px; }
+
+/* Problem: where an error could hide */
+.hunt { margin: 0; padding: 0; list-style: none; display: grid; border-top: 1px solid var(--rule); }
+.hunt li { padding: 12px 0 12px 18px; border-bottom: 1px solid var(--rule); position: relative; }
+.hunt li::before { content: ""; position: absolute; left: 0; top: 22px; width: 7px; height: 7px; border-radius: 50%; background: var(--flag); }
+.hunt b { color: var(--ink); }
 footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); }
 </style>
 </head>
@@ -216,14 +222,16 @@ footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--rule);
   <section>
     <div class="col">
       <span class="label">The problem</span>
-      <h2>Three systems that never agree on anyone's name</h2>
-      <p>Every night a manager copies tips from Toast into a 16-tab Excel workbook, then checks it against the schedule and the time clock. Each system writes the same person differently: <span class="mono">Andrea Lopez</span> in Toast, <span class="mono">ANDREA LOPEZ</span> on the schedule, <span class="mono">LOPEZ, ANDREA</span> in the sheet. Support staff never appear in Toast at all. Bartenders share one drawer.</p>
-      <p>The workbook totals each person's tip-out with <span class="mono">SUMIF</span> on their exact name. That is where the real risk was.</p>
-    </div>
-    <div class="incident">
-      <span class="label">What happened in production</span>
-      <p>A name in the sheet differed from its dropdown by a single character. Excel didn't show an error. <span class="mono">SUMIF</span> quietly returned <b>$0</b>, and a runner's whole share dropped out of that night's total.</p>
-      <p>Later, the app's own formula audit found an entire section of the workbook shifted one row: the first barista totalled a blank cell and every barista below her was paid the tips of the person above.</p>
+      <h2>One small error, and the whole week was suspect</h2>
+      <p>Every night a manager copied tips from Toast into a 16-tab Excel workbook by hand, then checked it against the schedule and the time clock. The workbook totals each person's tips by matching their name exactly. When something went wrong, nobody found out that night. We found out days later, when payroll emailed to say the numbers didn't add up.</p>
+      <p>That email meant auditing the entire week, line by line, because there was no way to tell where the error started. It could have been anywhere:</p>
+      <ul class="hunt">
+        <li><b>A trailing period after a name.</b> <span class="mono">Lopez, Andrea.</span> no longer matched, Excel returned $0, and she was tipped nothing for the night.</li>
+        <li><b>A formula one row off.</b> Every person below it was quietly paid the tips of the person above.</li>
+        <li><b>A copy-and-paste slip.</b> A number landed in the wrong column or overwrote a cell that fed the totals.</li>
+        <li><b>The same person spelled three ways.</b> <span class="mono">Andrea Lopez</span> in Toast, <span class="mono">ANDREA LOPEZ</span> on the schedule, <span class="mono">LOPEZ, ANDREA</span> in the sheet.</li>
+      </ul>
+      <p>None of these shows an error in Excel. With a staff of more than 100 and seven nights of hand-entered data a week, mistakes like these weren't rare; they were routine. Each one cost managers hours of searching and put someone's pay at risk.</p>
     </div>
   </section>
 
@@ -256,7 +264,7 @@ footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--rule);
     </div>
 
     <div class="col">
-      <p><b>They all assume one thing: every employee is the same record in every system.</b> In an all-in-one stack that's true. Ours is mixed: Toast for sales, HotSchedules for the schedule, ADP for punches and payroll, and an Excel workbook as the record of who gets paid what. No vendor I reviewed documents a "this name doesn't match across systems" check, and that mismatch is exactly what paid a runner $0.</p>
+      <p><b>They all assume one thing: every employee is the same record in every system.</b> In an all-in-one stack that's true. Ours is mixed: Toast for sales, HotSchedules for the schedule, ADP for punches and payroll, and an Excel workbook as the record of who gets paid what. No vendor I reviewed documents a "this name doesn't match across systems" check, and that mismatch is exactly how someone ends up tipped $0.</p>
       <p>The stakes are high in New York. A missed tip-out carries a six-year lookback, 100% liquidated damages and 9% interest, and from 2026 every employee's qualified tips go on their W-2. A silent $0 isn't a rounding error; it's the underpayment the law punishes hardest.</p>
     </div>
 
