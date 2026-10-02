@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nightly Close · River Tisman</title>
+<meta name="description" content="Case study: a web app River Tisman built to reconcile Toast, HotSchedules and ADP against a restaurant's Excel tip sheet. Live demo and code.">
+<meta name="author" content="River Tisman">
+<meta property="og:title" content="Nightly Close · River Tisman">
+<meta property="og:description" content="Restaurant close-out automation: Toast + HotSchedules + ADP reconciled against the Excel tip sheet. Live demo and code.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rivertisman.github.io/nightly-close/">
+<meta property="og:image" content="https://rivertisman.github.io/nightly-close/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f7d6b'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='17' font-weight='700' text-anchor='middle' fill='white'%3ENC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column like a close-out ticket, with screenshots allowed to run wider than the text. */
+:root {
+  --paper: #f5f6f3;
+  --surface: #ffffff;
+  --ink: #16262e;
+  --body: #2c3a40;
+  --muted: #5d6b70;
+  --rule: #dfe3df;
+  --accent: #0f7d6b;
+  --accent-soft: #e3f0ec;
+  --flag: #b4492f;
+  --flag-soft: #fbece7;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10181b; --surface: #172227; --ink: #eef3f1; --body: #c9d4d2; --muted: #8fa09f;
+    --rule: #263439; --accent: #4cc3a8; --accent-soft: #15332d; --flag: #ec8a6f; --flag-soft: #3a2119;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #10181b; --surface: #172227; --ink: #eef3f1; --body: #c9d4d2; --muted: #8fa09f;
+  --rule: #263439; --accent: #4cc3a8; --accent-soft: #15332d; --flag: #ec8a6f; --flag-soft: #3a2119;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--body);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  padding-inline: 20px;
+  padding-block: 0 72px;
+}
+.wrap { max-width: 1040px; margin: 0 auto; }
+.col { max-width: 680px; }
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.6rem, 6vw, 4.2rem); line-height: 1.02; letter-spacing: -0.01em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1.15; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Masthead */
+.masthead {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  padding-block: 22px; border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted);
+}
+.masthead strong { color: var(--ink); font-weight: 600; }
+
+.hero { display: grid; gap: 22px; padding-block: 64px 40px; }
+.hero .lede { font-size: 1.25rem; line-height: 1.55; color: var(--body); max-width: 640px; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px 28px; font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); }
+.facts span b { color: var(--ink); font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px; font-weight: 700; font-size: 0.95rem; text-decoration: none;
+  border: 1.5px solid var(--accent); border-radius: 2px;
+}
+.btn.primary { background: var(--accent); color: var(--surface); }
+.btn.secondary { color: var(--accent); }
+
+/* Pipeline strip: the three exports into one sheet */
+.pipeline {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto minmax(0, 1.2fr);
+  align-items: stretch; gap: 10px; margin-block: 8px 0;
+}
+.src, .dest {
+  background: var(--surface); border: 1px solid var(--rule); padding: 14px 16px; min-width: 0;
+}
+.src .sys { font-weight: 700; color: var(--ink); }
+.src .what, .dest .what { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+.dest { border-color: var(--accent); background: var(--accent-soft); }
+.dest .sys { font-weight: 700; color: var(--ink); }
+.arrow { display: grid; place-items: center; font-family: var(--font-mono); color: var(--accent); font-size: 1.3rem; }
+@media (max-width: 760px) {
+  .pipeline { grid-template-columns: 1fr; }
+  .arrow { transform: rotate(90deg); padding-block: 2px; }
+}
+
+section { padding-block: 56px 0; display: grid; gap: 20px; }
+section > .col { display: grid; gap: 16px; }
+
+/* The incident callout */
+.incident {
+  background: var(--flag-soft); border-left: 3px solid var(--flag);
+  padding: 18px 20px; display: grid; gap: 8px; max-width: 680px;
+}
+.incident .label { color: var(--flag); }
+.mono { font-family: var(--font-mono); font-size: 0.92em; }
+.cell { font-family: var(--font-mono); background: var(--surface); border: 1px solid var(--rule); padding: 1px 6px; white-space: pre; }
+
+/* Screenshots */
+figure { margin: 0; display: grid; gap: 10px; }
+figure img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--rule); background: var(--surface);
+  box-shadow: 0 18px 40px -28px rgba(22, 38, 46, 0.45);
+}
+figcaption { font-size: 0.9rem; color: var(--muted); max-width: 680px; }
+.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+@media (max-width: 760px) { .shots { grid-template-columns: 1fr; } }
+
+/* Checks list, styled like flagged rows */
+.checks { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; }
+.checks li {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: baseline;
+  padding-block: 12px; border-bottom: 1px solid var(--rule); min-width: 0;
+}
+.pill {
+  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em;
+  padding: 2px 7px; border-radius: 999px; background: var(--flag); color: var(--surface); white-space: nowrap;
+}
+.pill.ok { background: var(--accent); }
+.checks b { color: var(--ink); }
+@media (max-width: 760px) { .checks { grid-template-columns: 1fr; } }
+
+/* Decisions */
+.decisions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
+.decision { display: grid; gap: 8px; align-content: start; border-top: 2px solid var(--ink); padding-top: 14px; min-width: 0; }
+@media (max-width: 760px) { .decisions { grid-template-columns: 1fr; } }
+
+.stack { display: flex; flex-wrap: wrap; gap: 8px; }
+.stack span { font-family: var(--font-mono); font-size: 0.82rem; padding: 4px 10px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+
+.role { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 860px; }
+.role > div { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.role ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+@media (max-width: 760px) { .role { grid-template-columns: 1fr; } }
+
+footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <span><strong>River Tisman</strong> · Operations Manager · Brooklyn, NY</span>
+    <span>Case study · 2026</span>
+  </div>
+
+  <header class="hero">
+    <span class="label">Restaurant operations automation</span>
+    <h1>Nightly Close</h1>
+    <p class="lede">A web app I built and run at the restaurant I manage. It reads the night's exports from Toast, HotSchedules and ADP, checks them against our Excel Tip Sheet, and returns ready-to-paste tip entries plus a short list of the decisions a manager actually has to make.</p>
+    <div class="facts">
+      <span><b>~150–200</b> staff on payroll</span>
+      <span><b>3</b> systems reconciled</span>
+      <span><b>0</b> fuzzy name matches, by design</span>
+      <span>In nightly use at close</span>
+    </div>
+    <div class="actions" id="actions">
+      <a class="btn primary" id="demo-link" href="https://nightly-close-demo.onrender.com" target="_blank" rel="noopener">Try the live demo →</a>
+      <a class="btn secondary" id="code-link" href="https://github.com/RiverTisman/nightly-close-demo" target="_blank" rel="noopener">Read the code</a>
+    </div>
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:-8px">The demo runs on a free server; the first visit can take up to a minute to wake it. Press “Load sample files,” then “Fire.”</p>
+  </header>
+
+  <div class="pipeline" aria-label="Data flow">
+    <div class="src"><div class="sys">Toast</div><div class="what">Shift report: server tips, cash sales, shared bar drawers</div></div>
+    <div class="src"><div class="sys">HotSchedules</div><div class="what">Daily roster: who was scheduled, in which role, with notes</div></div>
+    <div class="src"><div class="sys">ADP</div><div class="what">Punch report: who actually clocked in, when, under which job code</div></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="dest"><div class="sys">Weekly Tip Sheet (Excel)</div><div class="what">Formula-driven tip pools that feed payroll. One wrong name and someone is paid $0.</div></div>
+  </div>
+
+  <section>
+    <div class="col">
+      <span class="label">The problem</span>
+      <h2>Three systems that never agree on anyone's name</h2>
+      <p>Every night a manager copies tips from Toast into a 16-tab Excel workbook, then checks it against the schedule and the time clock. Each system writes the same person differently: <span class="mono">Andrea Lopez</span> in Toast, <span class="mono">ANDREA LOPEZ</span> on the schedule, <span class="mono">LOPEZ, ANDREA</span> in the sheet. Support staff never appear in Toast at all. Bartenders share one drawer.</p>
+      <p>The workbook totals each person's tip-out with <span class="mono">SUMIF</span> on their exact name. That is where the real risk was.</p>
+    </div>
+    <div class="incident">
+      <span class="label">What happened in production</span>
+      <p>A name in the sheet differed from its dropdown by a single character. Excel didn't show an error. <span class="mono">SUMIF</span> quietly returned <b>$0</b>, and a runner's whole share dropped out of that night's total.</p>
+      <p>Later, the app's own formula audit found an entire section of the workbook shifted one row: the first barista totalled a blank cell and every barista below her was paid the tips of the person above.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="label">What it does</span>
+      <h2>Upload tonight's exports. Get the paste, and the exceptions.</h2>
+      <p>The Daily Close page turns two exports into tab-separated rows that paste straight into the sheet's Name, Cash and Credit columns, plus the bartender pool totals and the support-staff roster by role. Anything it can't be sure of is held out of the paste and flagged with a reason.</p>
+    </div>
+    <div class="shots">
+      <figure>
+        <img src="img/form.jpg" loading="lazy" width="1400" height="1275" alt="Daily Close upload form with Toast and HotSchedules files loaded, a shift selector, date, and pickers for cut employees and role swaps.">
+        <figcaption>The upload form. Cuts and role swaps are picked from the real staff list, so a typed name can't introduce a mismatch.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/servers.jpg" loading="lazy" width="1400" height="1275" alt="Server tip entries table with shift, tip sheet name, cash, credit, cash sales and hours, with review flags on four rows.">
+        <figcaption>Server entries, ready to paste. Flagged: a clock-in near the lunch/dinner cutover, a missing cash-sales number, and a Toast name the mapping has never seen.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/punch.jpg" loading="lazy" width="1400" height="1275" alt="Punch Report Check results showing a dropdown mismatch and ADP clock-in issues.">
+        <figcaption>Punch Report Check: ADP against the previous day's sheet. It also verifies every mapped name byte-for-byte against the workbook's dropdown.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/recon.jpg" loading="lazy" width="1400" height="1275" alt="Possible early cuts table and the Tip Sheet versus ADP reconciliation.">
+        <figcaption>Early cuts and the sheet-versus-time-clock reconciliation: on the sheet without a punch, punched in but missing from the sheet, or paid in the wrong department.</figcaption>
+      </figure>
+    </div>
+    <p class="col" style="font-size:0.9rem;color:var(--muted)">Screenshots are from the public demo. Every name, ID and amount in them is invented.</p>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="label">What it catches</span>
+      <h2>The checks a manager used to do by eye</h2>
+    </div>
+    <ul class="checks">
+      <li><span class="pill">REVIEW</span><span><b>Unmatched names</b> from any system, always shown, never guessed</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Dropdown drift</b> between the mapping and the workbook's exact cell text</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Wrong-row formulas</b> in the workbook, with a one-click repair</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Call-ins, house shifts and trainees</b> held out until a manager confirms</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Terminated employees</b> appearing on any schedule or report</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Under the 4-hour minimum</b> on dinner shifts</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Missing clock-outs</b>, with a suggested time from same-role peers</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Early cuts</b>: out 2+ hours before the last peer in the role</span></li>
+      <li><span class="pill">REVIEW</span><span><b>Wrong department</b>: scheduled one role, clocked in as another</span></li>
+      <li><span class="pill ok">AUTO</span><span><b>Large-party gratuities</b> credited to the server, with an optional split</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="label">Design decisions</span>
+      <h2>Built around what goes wrong at 1 a.m.</h2>
+    </div>
+    <div class="decisions">
+      <div class="decision">
+        <h3>Never guess a name</h3>
+        <p>One mapping file is the only source of truth. A name either matches exactly or gets flagged. Similarity scoring exists in one place: ordering a list a person picks from.</p>
+      </div>
+      <div class="decision">
+        <h3>Ambiguity becomes a question</h3>
+        <p>Call-ins, house shifts and trainees are never silently included or excluded. They default to held out, and the manager confirms each one on the results page.</p>
+      </div>
+      <div class="decision">
+        <h3>Suggestions stay suggestions</h3>
+        <p>A recommended clock-out is averaged from peers in the same role and the same opener, mid or closer shift, and labelled as something to confirm with the employee. It is never written as a punch.</p>
+      </div>
+      <div class="decision">
+        <h3>Never break the workbook</h3>
+        <p>The sheet's dropdowns are an Excel extension that common Python libraries drop on save. When the app adds an employee it edits the file's XML directly and changes only two internal parts.</p>
+      </div>
+      <div class="decision">
+        <h3>Fix the data where it lives</h3>
+        <p>Adding an employee writes the name into the workbook and the mapping from the same string, so the two can't disagree. Every change is committed to Git, which gives a full history of hires and terminations.</p>
+      </div>
+      <div class="decision">
+        <h3>Keep nothing</h3>
+        <p>Uploads live in a temporary folder for one request and are deleted. No database, no stored payroll data, and it runs on a free hosting tier.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <span class="label">How I built it</span>
+      <h2>Operator first, with an AI pair programmer</h2>
+      <p>I wrote the app with Claude Code. My job was the part software can't infer: defining the problem, writing down the business rules managers carry in their heads, and testing every change against real nights of data until the output matched the sheet a manager would have built by hand.</p>
+    </div>
+    <div class="role">
+      <div>
+        <h3>What I owned</h3>
+        <ul>
+          <li>Mapped every input file, column and formula before any code</li>
+          <li>Set the tip-pool rules: 4-hour minimum, cut handling, gratuity defaults</li>
+          <li>Traced production bugs to root cause and wrote them up</li>
+          <li>Deployed it, and use it at close</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Stack</h3>
+        <div class="stack"><span>Python</span><span>FastAPI</span><span>Jinja2</span><span>openpyxl</span><span>JavaScript</span><span>Docker</span><span>Render</span><span>GitHub</span><span>Claude Code</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>River Tisman · Nightly Close</span>
+    <span>Demo data is fictional. Production data never leaves the restaurant.</span>
+  </footer>
+</div>
+</body>
+</html>
