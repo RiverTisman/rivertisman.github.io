@@ -23,8 +23,8 @@
   <div class="masthead">
     <a class="home" href="/"><strong>River Tisman</strong> · Restaurant operations → hospitality tech · Brooklyn, NY</a>
     <nav aria-label="Sections">
-      <a href="#nightly-close">Nightly Close</a>
       <a href="#about">About</a>
+      <a href="#nightly-close">Nightly Close</a>
       <a href="#experience">Experience</a>
       <a href="/resume.html">Resume</a>
       <a href="#contact">Contact</a>
@@ -52,35 +52,6 @@
     </figure>
   </header>
 
-  <section id="nightly-close" aria-labelledby="nc-title">
-    <div class="feature">
-      <div class="col" style="display:grid;gap:12px">
-        <span class="label">Featured project · 2026</span>
-        <h2 id="nc-title">Nightly Close</h2>
-        <p>Every night, a manager had to pull exports from three systems and hand-key tips into a 16-tab Excel workbook before payroll. I built a web app that reads those exports, applies the tip-pool rules, checks the punches, and hands back payroll-ready entries plus a short list of the calls a manager actually has to make. Then I rolled it out and trained the managers who use it.</p>
-      </div>
-      <div class="pipeline" aria-label="Data flow: Toast, HotSchedules and ADP into the payroll tip sheet">
-        <div class="src"><div class="sys">Toast</div><div class="what">POS shift and tip reports</div></div>
-        <div class="src"><div class="sys">HotSchedules</div><div class="what">Who worked, in which role</div></div>
-        <div class="src"><div class="sys">ADP</div><div class="what">Punches and payroll IDs</div></div>
-        <div class="arrow" aria-hidden="true">→</div>
-        <div class="dest"><div class="sys">Payroll-ready tip sheet</div><div class="what">Checked entries and flagged exceptions</div></div>
-      </div>
-      <div class="stats">
-        <div><b>2 hrs → 30 min</b><span>nightly close, every night</span></div>
-        <div><b>150–200</b><span>staff on the payroll it feeds</span></div>
-        <div><b>3</b><span>systems reconciled, none replaced</span></div>
-        <div><b>&lt; 2 months</b><span>from idea to nightly use</span></div>
-      </div>
-      <div class="actions">
-        <a class="btn primary" href="/nightly-close/">Read the case study</a>
-        <a class="btn secondary" href="https://nightly-close-demo.onrender.com" target="_blank" rel="noopener">Try the live demo</a>
-        <a class="btn secondary" href="https://github.com/RiverTisman/nightly-close-demo" target="_blank" rel="noopener">See the code</a>
-      </div>
-      <p class="muted" style="font-size:0.85rem">The demo runs on fictional data and free hosting, so it can take about 30 seconds to wake up.</p>
-    </div>
-  </section>
-
   <section id="about" aria-labelledby="about-title">
     <div class="col">
       <span class="label">About</span>
@@ -106,6 +77,35 @@
         <p>Integrate CSV and Excel exports, reconcile tips and payroll, and build working tools with AI-assisted development.</p>
         <div class="stack"><span>Claude Code</span><span>Python</span><span>Advanced Excel</span><span>HTML/CSS</span><span>Render</span></div>
       </div>
+    </div>
+  </section>
+
+  <section id="nightly-close" aria-labelledby="nc-title">
+    <div class="feature">
+      <div class="col" style="display:grid;gap:12px">
+        <span class="label">Featured project · 2026</span>
+        <h2 id="nc-title">Nightly Close</h2>
+        <p>Every night, a manager had to pull exports from three systems and hand-key tips into a 16-tab Excel workbook before payroll. I built a web app that reads those exports, applies the tip-pool rules, checks the punches, and hands back payroll-ready entries plus a short list of the calls a manager actually has to make. Then I rolled it out and trained the managers who used it.</p>
+      </div>
+      <div class="pipeline" aria-label="Data flow: Toast, HotSchedules and ADP into the payroll tip sheet">
+        <div class="src"><div class="sys">Toast</div><div class="what">POS shift and tip reports</div></div>
+        <div class="src"><div class="sys">HotSchedules</div><div class="what">Who worked, in which role</div></div>
+        <div class="src"><div class="sys">ADP</div><div class="what">Punches and payroll IDs</div></div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="dest"><div class="sys">Payroll-ready tip sheet</div><div class="what">Checked entries and flagged exceptions</div></div>
+      </div>
+      <div class="stats">
+        <div><b>2 hrs → 30 min</b><span>nightly close, every night</span></div>
+        <div><b>150–200</b><span>staff on the payroll it feeds</span></div>
+        <div><b>3</b><span>systems reconciled, none replaced</span></div>
+        <div><b>&lt; 2 months</b><span>from idea to nightly use</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="/nightly-close/">Read the case study</a>
+        <a class="btn secondary" href="https://nightly-close-demo.onrender.com" target="_blank" rel="noopener">Try the live demo</a>
+        <a class="btn secondary" href="https://github.com/RiverTisman/nightly-close-demo" target="_blank" rel="noopener">See the code</a>
+      </div>
+      <p class="muted" style="font-size:0.85rem">The demo runs on fictional data and free hosting, so it can take about 30 seconds to wake up.</p>
     </div>
   </section>
 
