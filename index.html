@@ -2,12 +2,208 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>River Tisman</title>
-<meta http-equiv="refresh" content="0; url=/nightly-close/">
-<link rel="canonical" href="https://rivertisman.github.io/nightly-close/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>River Tisman · Hospitality tech implementation</title>
+<meta name="description" content="River Tisman: restaurant operations manager who builds the software the team runs on. Featured project: Nightly Close, which ties Toast, HotSchedules and ADP to automate the nightly close and payroll.">
+<meta name="author" content="River Tisman">
+<link rel="canonical" href="https://rivertisman.com/">
+<meta property="og:title" content="River Tisman · Hospitality tech implementation">
+<meta property="og:description" content="Restaurant operator who builds the software the floor runs on. Featured: Nightly Close (Toast + HotSchedules + ADP, 2 hours to 30 minutes).">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rivertisman.com/">
+<meta property="og:image" content="https://rivertisman.com/nightly-close/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f7d6b'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' text-anchor='middle' fill='white'%3ERT%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
-<body style="font-family:system-ui,sans-serif;padding:24px">
-<p><a href="/nightly-close/">Nightly Close: case study by River Tisman</a></p>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <a class="home" href="/"><strong>River Tisman</strong> · Restaurant operations → hospitality tech · Brooklyn, NY</a>
+    <nav aria-label="Sections">
+      <a href="#nightly-close">Nightly Close</a>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="/resume.html">Resume</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="hero-text">
+      <span class="label">Implementation · Onboarding · Customer success</span>
+      <h1>I run restaurants, and I build the software they run on.</h1>
+      <p class="lede">I've managed a 150–200 person team at a 1,000-cover-a-day restaurant, and I built and rolled out the web app our managers used to close every night. Now I want to help restaurants get new software live and actually used.</p>
+      <div class="facts">
+        <span><b>150–200</b> staff managed</span>
+        <span><b>1,000+</b> covers a day</span>
+        <span><b>Toast · HotSchedules · ADP</b></span>
+        <span><b>Spanish</b> (B2)</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="#nightly-close">See Nightly Close</a>
+        <a class="btn secondary" href="/resume.html">Resume</a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <img src="/img/profile.jpg" alt="River Tisman" width="640" height="960">
+    </figure>
+  </header>
+
+  <section id="nightly-close" aria-labelledby="nc-title">
+    <div class="feature">
+      <div class="col" style="display:grid;gap:12px">
+        <span class="label">Featured project · 2026</span>
+        <h2 id="nc-title">Nightly Close</h2>
+        <p>Every night, a manager had to pull exports from three systems and hand-key tips into a 16-tab Excel workbook before payroll. I built a web app that reads those exports, applies the tip-pool rules, checks the punches, and hands back payroll-ready entries plus a short list of the calls a manager actually has to make. Then I rolled it out and trained the managers who use it.</p>
+      </div>
+      <div class="pipeline" aria-label="Data flow: Toast, HotSchedules and ADP into the payroll tip sheet">
+        <div class="src"><div class="sys">Toast</div><div class="what">POS shift and tip reports</div></div>
+        <div class="src"><div class="sys">HotSchedules</div><div class="what">Who worked, in which role</div></div>
+        <div class="src"><div class="sys">ADP</div><div class="what">Punches and payroll IDs</div></div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="dest"><div class="sys">Payroll-ready tip sheet</div><div class="what">Checked entries and flagged exceptions</div></div>
+      </div>
+      <div class="stats">
+        <div><b>2 hrs → 30 min</b><span>nightly close, every night</span></div>
+        <div><b>150–200</b><span>staff on the payroll it feeds</span></div>
+        <div><b>3</b><span>systems reconciled, none replaced</span></div>
+        <div><b>&lt; 2 months</b><span>from idea to nightly use</span></div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="/nightly-close/">Read the case study</a>
+        <a class="btn secondary" href="https://nightly-close-demo.onrender.com" target="_blank" rel="noopener">Try the live demo</a>
+        <a class="btn secondary" href="https://github.com/RiverTisman/nightly-close-demo" target="_blank" rel="noopener">See the code</a>
+      </div>
+      <p class="muted" style="font-size:0.85rem">The demo runs on fictional data and free hosting, so it can take about 30 seconds to wake up.</p>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-title">
+    <div class="col">
+      <span class="label">About</span>
+      <h2 id="about-title">An operator's view of restaurant software</h2>
+      <p>I've spent four years on restaurant and event floors as a server, bartender, event captain and manager, most recently running daily operations for a three-floor restaurant in Rockefeller Center. That taught me where restaurant software helps and where it quietly creates work: systems that don't talk to each other, spreadsheets someone keeps by hand, managers stuck at a laptop instead of on the floor.</p>
+      <p>So I built the fix myself, got it running, and trained the team on it. That's the work I want to do full time: implementation, onboarding and customer success for hospitality tech. Getting restaurants configured, trained and live, in the language operators actually speak.</p>
+    </div>
+    <div class="bring">
+      <div>
+        <h3>Implementation and rollout</h3>
+        <p>Took Nightly Close from a messy manual process to a tool managers used every night: mapped the workflow, built it, handled the edge cases (role changes, lunch vs. dinner pools), and trained the managers. Earlier, set up service flow and closing procedures on a restaurant opening team.</p>
+      </div>
+      <div>
+        <h3>Training and onboarding</h3>
+        <p>Managed, trained and reviewed a staff of 150–200. Turned scattered position manuals into one interactive training hub, and standardized onboarding and service expectations as a manager at Fornino.</p>
+      </div>
+      <div>
+        <h3>Restaurant systems I've used daily</h3>
+        <div class="stack"><span>Toast</span><span>InfoGenesis</span><span>HotSchedules</span><span>7shifts</span><span>Resy</span><span>OpenTable</span><span>SevenRooms</span><span>ADP</span></div>
+      </div>
+      <div>
+        <h3>Data and building with AI</h3>
+        <p>Integrate CSV and Excel exports, reconcile tips and payroll, and build working tools with AI-assisted development.</p>
+        <div class="stack"><span>Claude Code</span><span>Python</span><span>Advanced Excel</span><span>HTML/CSS</span><span>Render</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" aria-labelledby="exp-title">
+    <div class="col">
+      <span class="label">Experience</span>
+      <h2 id="exp-title">Where I've worked</h2>
+    </div>
+    <ul class="jobs">
+      <li>
+        <span class="when">May – Oct 2026</span>
+        <div class="what"><b>AVRA Rockefeller Center, The Avra Group</b><span class="role">Operations Manager</span><p>Three floors, 1,000+ covers and about $100K in sales a day; 150–200 staff. Built Nightly Close and a consolidated training hub.</p></div>
+      </li>
+      <li>
+        <span class="when">Jul 2025 – May 2026</span>
+        <div class="what"><b>Barbuto Brooklyn at the 1 Hotel</b><span class="role">Bartender, opening team</span><p>Set up service flow, batching and closing procedures for a new hotel restaurant; led waste reduction in beverage operations.</p></div>
+      </li>
+      <li>
+        <span class="when">May – Oct 2025</span>
+        <div class="what"><b>Fornino, Brooklyn</b><span class="role">Manager</span><p>Standardized training and onboarding; co-developed a tipping system and improved POS workflows.</p></div>
+      </li>
+      <li>
+        <span class="when">Apr 2023 – Dec 2025</span>
+        <div class="what"><b>Elegant Affairs Catering</b><span class="role">Event Operations Manager, Bar Manager, Event Captain</span><p>Ran logistics for 1,000+ guest events. Catching Fire award for rapid advancement.</p></div>
+      </li>
+      <li>
+        <span class="when">2022 – 2024</span>
+        <div class="what"><b>Lavagna, New York · Moosewood, Ithaca</b><span class="role">Server, Bartender</span></div>
+      </li>
+    </ul>
+    <div class="actions">
+      <a class="btn secondary" href="/resume.html">Full resume</a>
+      <a class="btn secondary" href="/River-Tisman-Resume.pdf" download>Download PDF</a>
+    </div>
+  </section>
+
+  <section id="other-work" aria-labelledby="other-title">
+    <div class="col">
+      <span class="label">Other work</span>
+      <h2 id="other-title">Economics and modeling</h2>
+      <p>Before hospitality tech, I built financial and scenario models as part of my economics degree.</p>
+    </div>
+    <div class="cards">
+      <div>
+        <span class="tag">Python · TCO · scenario modeling</span>
+        <h3>Freight electrification model</h3>
+        <p>Five-year cost and emissions model for electrifying a regional delivery fleet, with fuel-price and grid sensitivity.</p>
+        <a href="/oatly-freight-model.html">Read the report →</a>
+      </div>
+      <div>
+        <span class="tag">Cost-benefit · DCF</span>
+        <h3>Public investment model</h3>
+        <p>Cost-benefit model of regional public funding under several scenarios, with sensitivity analysis behind a policy recommendation.</p>
+      </div>
+      <div>
+        <span class="tag">Data analysis</span>
+        <h3>Regional growth strategy</h3>
+        <p>Used business engagement data to prioritize outreach for a local economic development effort.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" aria-labelledby="edu-title">
+    <div class="two">
+      <div>
+        <span class="label">Education</span>
+        <h3 id="edu-title">Stony Brook University</h3>
+        <p>B.A. in Economics · December 2025 · GPA 3.7</p>
+        <p class="muted">Study abroad: American College of Greece, Athens. Coursework in econometrics, game theory and industrial organization.</p>
+      </div>
+      <div>
+        <span class="label">Leadership</span>
+        <ul>
+          <li>Vice President, Stony Brook Economics Club</li>
+          <li>Member, Stony Brook Investment Club</li>
+          <li>Treasurer, Men's Club Basketball</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="col">
+      <span class="label">Contact</span>
+      <h2 id="contact-title">Let's talk</h2>
+      <p>Open to implementation, onboarding, customer success and solutions roles in hospitality tech, in New York or remote.</p>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="mailto:rivertisman@gmail.com">rivertisman@gmail.com</a>
+      <a class="btn secondary" href="https://www.linkedin.com/in/rtisman/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn secondary" href="https://github.com/RiverTisman" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 River Tisman</span>
+    <span>Brooklyn, NY</span>
+  </footer>
+</div>
 </body>
 </html>

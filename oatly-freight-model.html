@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Freight Electrification Model · River Tisman</title>
+<meta name="description" content="A five-year cost and emissions model for electrifying a representative regional freight fleet, with fuel-price and grid sensitivity. By River Tisman.">
+<meta name="author" content="River Tisman">
+<link rel="canonical" href="https://rivertisman.com/oatly-freight-model.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f7d6b'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' text-anchor='middle' fill='white'%3ERT%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <a class="home" href="/"><strong>River Tisman</strong> · Restaurant operations → hospitality tech · Brooklyn, NY</a>
+    <nav aria-label="Site">
+      <a href="/">Home</a>
+      <a href="/nightly-close/">Nightly Close</a>
+      <a href="/resume.html">Resume</a>
+    </nav>
+  </div>
+
+  <header class="hero" style="grid-template-columns:1fr">
+    <div class="hero-text">
+      <span class="label">Other work · Economics &amp; modeling</span>
+      <h1>Oatly freight electrification model</h1>
+      <p class="lede">A five-year model of a representative 5-route regional freight network (197,000 annual miles), weighing diesel against battery-electric trucks. It combines emissions accounting, discounted cash flow, fuel-price sensitivity, grid carbon intensity and a 250-mile range constraint to show when electrification makes sense operationally and financially.</p>
+      <div class="actions">
+        <a class="btn secondary" href="https://github.com/RiverTisman/rivertisman.github.io/tree/main/oatly-freight-model" target="_blank" rel="noopener">See the Python model</a>
+        <a class="btn secondary" href="/">Back to home</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="stats" style="max-width:860px">
+    <div><b>308.5</b><span>tCO₂ a year, diesel baseline</span></div>
+    <div><b>−27.2%</b><span>fleet emissions, feasible routes only</span></div>
+    <div><b>−50.8%</b><span>per-route emissions on the U.S. grid</span></div>
+    <div><b>+$84K</b><span>5-year EV cost premium, base case</span></div>
+  </div>
+
+  <section>
+    <div class="col">
+      <h2>Cost: 5-year total cost of ownership</h2>
+      <p class="muted">Net present value at an 8% discount rate.</p>
+    </div>
+    <div class="table-wrap" style="max-width:860px">
+      <table>
+        <thead><tr><th>Scenario</th><th>Diesel NPV</th><th>EV NPV</th><th>EV advantage</th></tr></thead>
+        <tbody>
+          <tr><td>Low fuel ($3/gal)</td><td>$414,214</td><td>$559,720</td><td class="neg">−$145,506</td></tr>
+          <tr><td>Base case ($4/gal)</td><td>$475,559</td><td>$559,720</td><td class="neg">−$84,161</td></tr>
+          <tr><td>High fuel ($5.50/gal)</td><td>$567,300</td><td>$559,720</td><td class="pos">+$7,580</td></tr>
+          <tr><td>EV incentive ($80K credit)</td><td>$475,559</td><td>$479,720</td><td class="neg">−$4,161</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <p>With cheap diesel, electrifying costs materially more. With high fuel prices it comes out ahead, and an $80K incentive brings it close to parity within five years.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <h2>Emissions: it depends on the grid</h2>
+      <p class="muted">All routes electrified.</p>
+    </div>
+    <div class="table-wrap" style="max-width:860px">
+      <table>
+        <thead><tr><th>Grid case</th><th>EV emissions (tCO₂/yr)</th><th>Change vs. diesel</th></tr></thead>
+        <tbody>
+          <tr><td>Diesel baseline</td><td>308.50</td><td>—</td></tr>
+          <tr><td>High-carbon grid</td><td>315.20</td><td class="neg">+2.2%</td></tr>
+          <tr><td>U.S. average grid</td><td>151.69</td><td class="pos">−50.8%</td></tr>
+          <tr><td>E.U. average grid</td><td>98.50</td><td class="pos">−68.1%</td></tr>
+          <tr><td>Low-carbon grid</td><td>39.40</td><td class="pos">−87.2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure style="max-width:760px">
+      <img src="/img/oatly_grid_sensitivity.png" alt="Bar chart of fleet emissions under each grid scenario compared with the diesel baseline">
+      <figcaption>On a coal-heavy grid, electric trucks slightly increase emissions; on a renewable-heavy grid, the cut is dramatic.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="two">
+      <div>
+        <h3>Route prioritization</h3>
+        <p>Routes were ranked on emissions reduction, annual operating savings, and whether they fit within a 250-mile practical range. Routes R3 and R2 came out on top for a first phase: the biggest emissions and cost benefit within range, with less risk than converting the whole fleet.</p>
+      </div>
+      <div>
+        <h3>What it means</h3>
+        <ul>
+          <li>Electrify short-haul, high-utilization routes first.</li>
+          <li>Five-year payback is very sensitive to diesel prices.</li>
+          <li>Incentives pull parity forward.</li>
+          <li>The grid's carbon intensity decides the real climate benefit, so strategy has to vary by region.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="two">
+      <div>
+        <h3>Assumptions</h3>
+        <ul>
+          <li>Diesel: 6.5 MPG, $0.20/mile maintenance, $150K per truck</li>
+          <li>EV: 2.0 kWh/mile, $0.12/mile maintenance, $350K per truck plus $50K charging</li>
+          <li>Practical EV range: 250 miles</li>
+          <li>8% discount rate, 5-year horizon</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Limitations</h3>
+        <p>Route data is synthesized for demonstration. The model leaves out payload variation, battery degradation and detailed tax treatment. It's a decision-support framework, not a deployment plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 River Tisman</span>
+    <a href="/">rivertisman.com</a>
+  </footer>
+</div>
+</body>
+</html>
